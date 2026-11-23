@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Models\Categoria;
 use App\Models\Curso;
 use App\Requests\AtualizarCategoriaRequest;
 use App\Requests\AtualizarCursoRequest;
@@ -19,13 +20,22 @@ final class CursoController
     public function cadastrar(CadastrarCursoRequest $req, Response $res): Response
     {
         $data = $req->validated();
+        if ($data["nivel"] == "INICIANTE" || $data["mivel"] == "INTERMEDIARIO" || $data['nivel'] == "AVANCADO") {
+            $curso = $this->service->cadastrar($data);
 
-        $curso = $this->service->cadastrar($data);
+            return $res->json([
+                "mensagem" => "Curso criado com sucesso!",
+                "curso" => $curso
+            ], 201);
+        }
 
         return $res->json([
-            "mensagem" => "Curso criado com sucesso!",
-            "curso" => $curso
-        ], 201);
+            "erro" => "Dados inválidos",
+            "status"=> 422,
+            "campos"=> [
+                "nivel"=> ["O campo nivel precisa ser INICIANTE OU INTERMEDIARIO OU AVANCADO."],
+            ]
+        ]);
     }
 
     public function verTodos(Request $req, Response $res): Response
@@ -63,7 +73,8 @@ final class CursoController
         return $res->json([
             "status" => 200,
             "mensagem" => "Curso encontrado",
-            "curso" => $curso
+            "curso" => $curso,
+            "categoria_curso" => Categoria::buscar($curso->categoria_id)
         ], 200);
     }
 
