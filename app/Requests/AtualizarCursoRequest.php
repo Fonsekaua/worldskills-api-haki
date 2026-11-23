@@ -12,7 +12,7 @@ final class AtualizarCursoRequest extends FormRequest
     public function rules(Rule $rule): array
     {
         return [
-            'nome' => $rule->text()->length(5, 120)->optional(),
+            'titulo' => $rule->text()->length(5, 120)->optional(),
             "descricao" => $rule->text()->min(10)->optional(),
             "carga_horaria" => $rule->integer()->min(1)->optional(),
             "nivel" => $rule->text()->optional(),

@@ -12,7 +12,7 @@ final class CadastrarCursoRequest extends FormRequest
     public function rules(Rule $rule): array
     {
         return [
-            'nome' => $rule->text()->length(5, 120),
+            'titulo' => $rule->text()->length(5, 120),
             "descricao" => $rule->text()->length(min:10),
             "carga_horaria" => $rule->integer()->min(1),
             "nivel" => $rule->text(),
