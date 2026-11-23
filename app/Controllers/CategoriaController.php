@@ -1,7 +1,10 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Controllers;
 
+use App\Models\Categoria;
 use App\Models\Curso;
 use App\Requests\AtualizarCategoriaRequest;
 use App\Requests\CadastrarCategoriaRequest;
@@ -16,9 +19,18 @@ final class CategoriaController
     public function cadastrar(CadastrarCategoriaRequest $req, Response $res): Response
     {
         $data = $req->validated();
-
         $categoria = $this->service->cadastrar($data);
+        $buscarNome = Categoria::buscarPor("titulo", $data["titulo"]);
+        if ($buscarNome != null) {
+            return $res->json([
+                "status" => 409,
+                "erro" => "Categoria ja criada",
+                "detalhes" => [
+                    "campo" => "A categoria informada (titulo) consta em nosso banco de dados como unica"
+                ]
 
+            ], 409);
+        }
         return $res->json([
             "mensagem" => "Categoria criada com sucesso!",
             "categoria" => $categoria
@@ -58,7 +70,8 @@ final class CategoriaController
         ], 200);
     }
 
-    public function atualizarUm(int $id, AtualizarCategoriaRequest $req, Response $res): Response {
+    public function atualizarUm(int $id, AtualizarCategoriaRequest $req, Response $res): Response
+    {
         $categoria = $this->service->verUm($id);
 
         if ($categoria == null) {
@@ -73,17 +86,16 @@ final class CategoriaController
         }
         $dados = $req->validated();
 
-        $this->service->atualizarUm($categoria,$dados);
+        $this->service->atualizarUm($categoria, $dados);
 
         return $res->json([
             "mensagem" => "Categoria atualizada com sucesso!"
-        ],200);
-
-
+        ], 200);
     }
 
 
-        public function deletarUm(int $id, Response $res): Response {
+    public function deletarUm(int $id, Response $res): Response
+    {
         $categoria = $this->service->verUm($id);
 
         if ($categoria == null) {
@@ -96,13 +108,20 @@ final class CategoriaController
 
             ], 404);
         }
-    
 
+        $cursos = Curso::buscarPor("categoria_id", (int) $id);
+        if ($cursos != null) {
+            return $res->json([
+                "status" => 409,
+                "erro" => "Categoria não pode ser apagada",
+                "detalhes" => [
+                    "campo" => "A categoria informada (id) esta ligada a um ou mais cursos"
+                ]
+
+            ], 409);
+        }
         $this->service->deletarUm($categoria);
 
         return $res->status(204);
-
-
     }
-
 }
