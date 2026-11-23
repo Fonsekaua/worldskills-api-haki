@@ -26,7 +26,8 @@ final class CategoriaController
                 "status" => 409,
                 "erro" => "Categoria ja criada",
                 "detalhes" => [
-                    "campo" => "A categoria informada (titulo) consta em nosso banco de dados como unica"
+                    "campo" => "titulo",
+                    "mensagem" => "A categoria informada (titulo) consta em nosso banco de dados como unica"
                 ]
 
             ], 409);
@@ -54,7 +55,8 @@ final class CategoriaController
                 "status" => 404,
                 "erro" => "Categoria não encontrada",
                 "detalhes" => [
-                    "campo" => "A categoria informada (id) não consta em nosso banco de dados"
+                    "campo" => "id",
+                    "mensagem" => "A categoria informada (id) não consta em nosso banco de dados"
                 ]
 
             ], 404);
@@ -75,11 +77,12 @@ final class CategoriaController
         $categoria = $this->service->verUm($id);
 
         if ($categoria == null) {
-            return $res->json([
+               return $res->json([
                 "status" => 404,
                 "erro" => "Categoria não encontrada",
                 "detalhes" => [
-                    "campo" => "A categoria informada (id) não consta em nosso banco de dados"
+                    "campo" => "id",
+                    "mensagem" => "A categoria informada (id) não consta em nosso banco de dados"
                 ]
 
             ], 404);
@@ -103,7 +106,8 @@ final class CategoriaController
                 "status" => 404,
                 "erro" => "Categoria não encontrada",
                 "detalhes" => [
-                    "campo" => "A categoria informada (id) não consta em nosso banco de dados"
+                    "campo" => "id",
+                    "mensagem" => "A categoria informada (id) não consta em nosso banco de dados"
                 ]
 
             ], 404);
@@ -115,7 +119,8 @@ final class CategoriaController
                 "status" => 409,
                 "erro" => "Categoria não pode ser apagada",
                 "detalhes" => [
-                    "campo" => "A categoria informada (id) esta ligada a um ou mais cursos"
+                    "campo" => "id",
+                    "mensagem" => "A categoria informada (id) esta ligada a um ou mais cursos"
                 ]
 
             ], 409);

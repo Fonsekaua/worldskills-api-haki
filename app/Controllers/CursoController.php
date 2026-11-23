@@ -6,7 +6,6 @@ namespace App\Controllers;
 
 use App\Models\Categoria;
 use App\Models\Curso;
-use App\Requests\AtualizarCategoriaRequest;
 use App\Requests\AtualizarCursoRequest;
 use App\Requests\CadastrarCursoRequest;
 use App\Services\CursoService;
@@ -20,6 +19,18 @@ final class CursoController
     public function cadastrar(CadastrarCursoRequest $req, Response $res): Response
     {
         $data = $req->validated();
+        $categoria = Categoria::buscar($data["categoria_id"]);
+        if ($categoria == null || $categoria->ativa == false) {
+            return $res->json([
+                "status" => 404,
+                "erro" => "Erro na categoria",
+                "detalhes" => [
+                    "linha" => "categoria",
+                    "mensagem" => "Categoria não existe ou não se encontra ativa"
+                ]
+
+            ], 400);
+        }
         if ($data["nivel"] == "INICIANTE" || $data["mivel"] == "INTERMEDIARIO" || $data['nivel'] == "AVANCADO") {
             $curso = $this->service->cadastrar($data);
 
@@ -31,9 +42,9 @@ final class CursoController
 
         return $res->json([
             "erro" => "Dados inválidos",
-            "status"=> 422,
-            "campos"=> [
-                "nivel"=> ["O campo nivel precisa ser INICIANTE OU INTERMEDIARIO OU AVANCADO."],
+            "status" => 422,
+            "campos" => [
+                "nivel" => ["O campo nivel precisa ser INICIANTE OU INTERMEDIARIO OU AVANCADO."],
             ]
         ]);
     }
@@ -64,7 +75,8 @@ final class CursoController
                 "status" => 404,
                 "erro" => "Curso não encontrado",
                 "detalhes" => [
-                    "campo" => "O Curso informado (id) não consta em nosso banco de dados"
+                    "campo" => "id",
+                    "mensagem" => "O Curso informado (id) não consta em nosso banco de dados"
                 ]
 
             ], 404);
@@ -87,7 +99,8 @@ final class CursoController
                 "status" => 404,
                 "erro" => "Curso não encontrado",
                 "detalhes" => [
-                    "campo" => "O Curso informado (id) não consta em nosso banco de dados"
+                    "campo" => "id",
+                    "mensagem" => "O Curso informado (id) não consta em nosso banco de dados"
                 ]
 
             ], 404);
@@ -111,7 +124,8 @@ final class CursoController
                 "status" => 404,
                 "erro" => "Curso não encontrado",
                 "detalhes" => [
-                    "campo" => "O Curso informado (id) não consta em nosso banco de dados"
+                    "campo" => "id",
+                    "mensagem" => "O Curso informado (id) não consta em nosso banco de dados"
                 ]
 
             ], 404);
