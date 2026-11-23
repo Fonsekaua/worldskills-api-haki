@@ -25,7 +25,7 @@ final class CategoriaService {
         $categoria->atualizar($dados);
     }
 
-    public function deletarUm(Categoria $categoria) {
+    public function deletarUm(Categoria $categoria):void {
         $categoria->excluir();
     }
 }   

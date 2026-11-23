@@ -24,7 +24,7 @@ final class CursoService {
         $curso->atualizar($dados);
     }
 
-    public function deletarUm(Curso $curso) {
+    public function deletarUm(Curso $curso):void {
         $curso->excluir();
     }
 }   
