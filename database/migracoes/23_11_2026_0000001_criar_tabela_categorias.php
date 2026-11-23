@@ -5,7 +5,7 @@ use Elo\Tabela;
 return new class extends Migracao {
     public function subir():void {
         Tabela::criar("categorias", [
-            "titulo" => Coluna::texto(80),
+            "titulo" => Coluna::texto(80)->unico(),
             "descricao" => Coluna::texto(255),
             "ativa" => Coluna::booleano()->padrao(true)
         ]);
