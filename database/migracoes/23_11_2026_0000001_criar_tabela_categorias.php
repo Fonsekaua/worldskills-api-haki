@@ -1,4 +1,5 @@
 <?php 
+declare(strict_types=1);
 use Elo\Migracao;
 use Elo\Coluna;
 use Elo\Tabela;
