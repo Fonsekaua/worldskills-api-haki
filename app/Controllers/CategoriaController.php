@@ -19,7 +19,6 @@ final class CategoriaController
     public function cadastrar(CadastrarCategoriaRequest $req, Response $res): Response
     {
         $data = $req->validated();
-        $categoria = $this->service->cadastrar($data);
         $buscarNome = Categoria::buscarPor("titulo", $data["titulo"]);
         if ($buscarNome != null) {
             return $res->json([
@@ -28,10 +27,12 @@ final class CategoriaController
                 "detalhes" => [
                     "campo" => "titulo",
                     "mensagem" => "A categoria informada (titulo) consta em nosso banco de dados como unica"
-                ]
-
-            ], 409);
+                    ]
+                    
+                    ], 409);
         }
+
+        $categoria = $this->service->cadastrar($data);
         return $res->json([
             "mensagem" => "Categoria criada com sucesso!",
             "categoria" => $categoria
