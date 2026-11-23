@@ -13,7 +13,7 @@ final class AtualizarCategoriaRequest extends FormRequest
     {
            return [
             'titulo' => $rule->text()->length(3, 80)->optional(),
-            "descricao" => $rule->text()->max(255)->optional(),
+            "descricao" => $rule->text()->length(max:255)->optional(),
             "ativa" => $rule->boolean()->optional(true)->optional()
         ];
     }

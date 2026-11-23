@@ -13,8 +13,9 @@ final class CadastrarCategoriaRequest extends FormRequest
     {
         return [
             'titulo' => $rule->text()->length(3, 80),
-            "descricao" => $rule->text()->max(255)->optional(""),
-            "ativa" => $rule->boolean()->optional(true)
+            "descricao" => $rule->text()->length(max:255)->optional(""),
+            "ativa" => $rule->boolean()->optional(true),
+
         ];
     }
 }
