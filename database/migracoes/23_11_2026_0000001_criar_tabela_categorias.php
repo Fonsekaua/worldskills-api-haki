@@ -9,6 +9,13 @@ return new class extends Migracao {
             "descricao" => Coluna::textoLongo(),
             "ativa" => Coluna::booleano()->padrao(true)
         ]);
+
+    
+    }
+
+        public function descer(): void
+    {
+        Tabela::apagar('categorias');
     }
 }
 
