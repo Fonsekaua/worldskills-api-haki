@@ -12,7 +12,7 @@ final class AtualizarCategoriaRequest extends FormRequest
     public function rules(Rule $rule): array
     {
            return [
-            'titulo' => $rule->text()->length(3, 80)->optional(),
+            'nome' => $rule->text()->length(3, 80)->optional(),
             "descricao" => $rule->text()->length(max:255)->optional(),
             "ativa" => $rule->boolean()->optional(true)->optional()
         ];

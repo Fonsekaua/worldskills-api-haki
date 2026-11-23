@@ -12,7 +12,7 @@ final class CadastrarCategoriaRequest extends FormRequest
     public function rules(Rule $rule): array
     {
         return [
-            'titulo' => $rule->text()->length(3, 80),
+            'nome' => $rule->text()->length(3, 80),
             "descricao" => $rule->text()->length(max:255)->optional(""),
             "ativa" => $rule->boolean()->optional(true),
 

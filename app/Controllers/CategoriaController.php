@@ -19,14 +19,14 @@ final class CategoriaController
     public function cadastrar(CadastrarCategoriaRequest $req, Response $res): Response
     {
         $data = $req->validated();
-        $buscarNome = Categoria::buscarPor("titulo", $data["titulo"]);
+        $buscarNome = Categoria::buscarPor("nome", $data["nome"]);
         if ($buscarNome != null) {
             return $res->json([
                 "status" => 409,
                 "erro" => "Categoria ja criada",
                 "detalhes" => [
-                    "campo" => "titulo",
-                    "mensagem" => "A categoria informada (titulo) consta em nosso banco de dados como unica"
+                    "campo" => "nome",
+                    "mensagem" => "A categoria informada (nome) consta em nosso banco de dados como unica"
                     ]
                     
                     ], 409);
