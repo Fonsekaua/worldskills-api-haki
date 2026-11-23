@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Controllers\HomeController;
-
-/** @var Haki\Haki $app */
+use Haki\Haki;
 
 $app->get('/', [HomeController::class, 'index']);
